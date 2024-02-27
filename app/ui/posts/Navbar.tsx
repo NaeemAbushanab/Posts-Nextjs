@@ -1,5 +1,6 @@
 "use client";
 
+import { changeTheme } from "@/scripts/theme";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -7,30 +8,19 @@ import React, { useEffect, useState } from "react";
 import { FaMoon } from "react-icons/fa6";
 import { LuSunMedium } from "react-icons/lu";
 
-const themes = {
-  dark: "dark",
-  light: "light",
-};
-
-export default function navbar() {
+export default function navbar({ isDark }) {
   let pathname = usePathname();
   const router = useRouter();
-  const [theme, setTheme] = useState<string>(themes.dark);
-
+  const [theme, setTheme] = useState<boolean>(isDark);
   const paths = ["", "posts"];
 
-  function _setTheme(theme: string): void {
-    localStorage.setItem("theme", theme);
-    setTheme(theme);
-    if (theme === themes.dark) document.body.classList.add(themes.dark, "trans");
-    else document.body.classList.remove(themes.dark);
+  function _setTheme() {
+    const currTheme = !theme;
+    setTheme(currTheme);
+    if (currTheme) document.body.classList.add("dark", "trans");
+    else document.body.classList.remove("dark");
+    changeTheme(currTheme);
   }
-
-  useEffect(() => {
-    const initialSettingTheme: string = localStorage.getItem("theme") || themes.light;
-    _setTheme(initialSettingTheme);
-  }, []);
-
   return (
     <div className="bg-gray-900 dark:bg-black text-white shadow-lg dark:border-b-[1px] dark:border-white font-bold text-xl">
       <div className="container flex justify-between py-7  dark:text-white rounded-t-lg ">
@@ -52,12 +42,12 @@ export default function navbar() {
             </li>
           ))}
         </ul>
-        {theme === themes.dark ? (
-          <i className="cursor-pointer" onClick={() => _setTheme(themes.light)}>
+        {theme ? (
+          <i className="cursor-pointer" onClick={() => _setTheme()}>
             <LuSunMedium size={25} />
           </i>
         ) : (
-          <i className="cursor-pointer" onClick={() => _setTheme(themes.dark)}>
+          <i className="cursor-pointer" onClick={() => _setTheme()}>
             <FaMoon size={25} />
           </i>
         )}
