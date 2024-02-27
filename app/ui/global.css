@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.toast {
+  @apply px-10 py-2 bg-green-600 font-bold text-white rounded-md animate-toastIt translate-x-120% opacity-0 shadow-xl cursor-pointer;
+}
+.success-toast {
+  @apply bg-green-600;
+}
+.error-toast {
+  @apply bg-red-600;
+}
+textarea {
+  resize: none;
+  max-height: "75px";
+  min-height: "38px";
+}
+.trans {
+  transition: all 0.5s linear;
+  -webkit-transition: all 0.5s linear;
+  -moz-transition: all 0.5s linear;
+  -ms-transition: all 0.5s linear;
+  -o-transition: all 0.5s linear;
+}
